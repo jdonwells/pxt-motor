@@ -139,7 +139,7 @@ namespace motor {
     /**
      * Set the PWM frequency.
      */
-    //% blockId=motor_servo block="initPWM freq|%freq"
+    //% blockId=motor_initPCA9685 block="initPCA9685 freq|%freq"
     //% weight=100
     //% freq.min=40 freq.max=60
     export function initPCA9685(freq: number): void {
