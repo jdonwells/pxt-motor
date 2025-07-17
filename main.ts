@@ -134,17 +134,10 @@ namespace motor {
         return val;
     }
 
-	
 
-    /**
-     * Set the PWM frequency.
-     */
-    //% blockId=motor_initPCA9685 block="initPCA9685 freq|%freq"
-    //% weight=100
-    //% freq.min=40 freq.max=60
-    export function initPCA9685(freq: number): void {
+    function initPCA9685(): void {
         i2cWrite(PCA9685_ADDRESS, MODE1, 0x00)
-        setFreq(freq);
+        setFreq(47);
         initialized = true
     }
 
