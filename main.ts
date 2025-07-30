@@ -243,7 +243,7 @@ namespace motor {
         if (!initialized) {
             initPCA9685()
         }
-        // 50hz
+        // 50hz is assumed. 2000 us pulse width range 2500 - 500, 180 degrees of travel, 500 us minimum pulse width
         let v_us = (degree * 2000 / 180 + 500) // 0.5ms ~ 2.5ms
         let value = v_us * 4096 / 20000
         setPwm(index + 7, 0, value)
@@ -311,7 +311,6 @@ namespace motor {
             motorStop(3)
             motorStop(4)
         }
-        //setFreq(50);
     }
 
     /**
@@ -358,7 +357,6 @@ namespace motor {
             motorStop(3)
             motorStop(4)
         }
-        //setFreq(50);
     }
 
     /**
