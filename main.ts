@@ -112,7 +112,7 @@ namespace motor {
     }
 
     let initialized = false
-    let oscillatorFrequency = 25000000
+    let prescale = 0
 
     function i2cWrite(addr: number, reg: number, value: number) {
         let buf = pins.createBuffer(2)
@@ -134,14 +134,14 @@ namespace motor {
     }
 
     /**
-     * oscillator frequency
-     * @param freq [22 - 28] 
+     * prescale count
+     * @param count [3 - 255] 
     */
-    //% blockId=robotbit_frequency block="oscilator frequency (MHz)|%freq"
+    //% blockId=robotbit_prescale block="set prescale|%count"
     //% group="Servo" weight=62
-    //% freq.min=22 freq.max=28
-    export function SetOscillatorFrequency(freq: number): void {
-	oscillatorFrequency = freq * 1000000;
+    //% count.min=3 count.max=255
+    export function setPrescaleCount(count: number): void {
+	prescale = count;
         initPCA9685()
     }
 
@@ -153,12 +153,9 @@ namespace motor {
 
     function setFreq(freq: number): void {
         // Constrain the frequency
-        let prescaleval = oscillatorFrequency;
-        prescaleval /= 4096;
-        prescaleval /= freq;
-	prescaleval = Math.round(prescaleval);
-        prescaleval -= 1;
-        let prescale = prescaleval;
+	if (prescale == 0) {
+	    prescale = Math.round(25000000 / (4096 * freq)) - 1;
+	}
         let oldmode = i2cRead(PCA9685_ADDRESS, MODE1);
         let newmode = (oldmode & 0x7F) | 0x10; // sleep
         i2cWrite(PCA9685_ADDRESS, MODE1, newmode); // go to sleep
